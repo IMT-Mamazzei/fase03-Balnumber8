@@ -71,7 +71,7 @@ assign_stmt ::= ID ASSIGN expr SEMI ;
 /* TODO 5: Implemente o IF, WHILE, BLOCO e NULL */
 /* if_stmt ::= ... */
 
-if_stmt ::= IF LPAREN expr RPAREN THEN stmt ;
+if_stmt ::= IF LPAREN expr RPAREN THEN stmt %prec THEN ;
 
 if_stmt ::= IF LPAREN expr RPAREN THEN stmt ELSE stmt ;
 
