@@ -65,7 +65,6 @@ assign_stmt ::= ID ASSIGN expr SEMI ;
 /* if_stmt ::= ... */
 
 if_stmt ::= IF LPAREN expr RPAREN THEN stmt ;
-if_stmt ::= IF LPAREN expr RPAREN THEN stmt ELSE stmt ;
 
 while_stmt ::= WHILE LPAREN expr RPAREN stmt ;
 
