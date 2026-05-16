@@ -31,13 +31,15 @@ non terminal expr;
 /* PRECEDÊNCIA E ASSOCIATIVIDADE                                             */
 /* ========================================================================= */
 
-/* TODO 1: Declare a precedência para resolver a ambiguidade matemática. */
-/* Dica: O operador mais embaixo tem a MAIOR precedência!                */
-/* precedence left ... ; */
+/* Resolução do dangling-else: IFX (if sem else) tem menor prioridade que   */
+/* ELSE, forçando o else a se ligar ao if mais interno (comportamento padrão)*/
+/* O operador mais embaixo tem a MAIOR precedência!                         */
 
 precedence left REL_OP;
 precedence left ADD_OP;
 precedence left MUL_OP;
+precedence right IFX;    /* pseudo-token: if sem else */
+precedence right ELSE;   /* maior que IFX → else gruda no if mais próximo  */
 
 /* ========================================================================= */
 /* REGRAS DA GRAMÁTICA                                                       */
@@ -45,15 +47,12 @@ precedence left MUL_OP;
 
 start with program;
 
-/* TODO 2: Como definir um programa que é uma lista de comandos? */
 program ::= stmt_list ;
 
-/* TODO 3: Como definir uma lista recursiva no BNF? */
 stmt_list ::= stmt_list stmt
             | stmt
             ;
 
-/* TODO 4: Declaração dos comandos (assign, if, while, block, null) */
 stmt ::= assign_stmt
        | if_stmt
        | while_stmt
@@ -63,9 +62,7 @@ stmt ::= assign_stmt
 
 assign_stmt ::= ID ASSIGN expr SEMI ;
 
-/* TODO 5: Implemente o IF, WHILE, BLOCO e NULL */
-/* if_stmt ::= ... */
-
+/* %prec IFX força a redução do if-sem-else antes de consumir um ELSE      */
 if_stmt ::= IF LPAREN expr RPAREN THEN stmt %prec IFX
           | IF LPAREN expr RPAREN THEN stmt ELSE stmt
           ;
@@ -76,7 +73,6 @@ block_stmt ::= LBRACE stmt_list RBRACE ;
 
 null_stmt ::= SEMI ;
 
-/* TODO 6: Regras de expressões (aritmética, relacional, etc) */
 expr ::= expr ADD_OP expr
        | expr MUL_OP expr
        | expr REL_OP expr
