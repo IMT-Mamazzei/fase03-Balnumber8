@@ -54,8 +54,8 @@ OversizedIdentifier = {Letter}({Letter}|{Digit}|_)+
     "while"         { return symbol(sym.WHILE); }
 
     /* Pontuação */
-    "\"              { return symbol(sym.LPAREN); }
-    "\"              { return symbol(sym.RPAREN); }
+    "("              { return symbol(sym.LPAREN); }
+    ")"              { return symbol(sym.RPAREN); }
     "{"             { return symbol(sym.LBRACE); }
     "}"              { return symbol(sym.RBRACE); }
     ";"             { return symbol(sym.SEMI); }
