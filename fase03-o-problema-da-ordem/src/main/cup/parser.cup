@@ -38,8 +38,6 @@ non terminal expr;
 precedence left REL_OP;
 precedence left ADD_OP;
 precedence left MUL_OP;
-precedence right IFX;    /* pseudo-token: if sem else */
-precedence right ELSE;   /* maior que IFX → else gruda no if mais próximo  */
 
 /* ========================================================================= */
 /* REGRAS DA GRAMÁTICA                                                       */
@@ -63,11 +61,11 @@ stmt ::= assign_stmt
 assign_stmt ::= ID ASSIGN expr SEMI ;
 
 /* %prec IFX força a redução do if-sem-else antes de consumir um ELSE      */
-if_stmt ::= IF LPAREN expr RPAREN THEN stmt %prec IFX
-          | IF LPAREN expr RPAREN THEN stmt ELSE stmt
+if_stmt ::= IF LPAREN expr RPAREN THEN block_stmt
+          | IF LPAREN expr RPAREN THEN block_stmt ELSE block_stmt
           ;
 
-while_stmt ::= WHILE LPAREN expr RPAREN stmt ;
+while_stmt ::= WHILE LPAREN expr RPAREN block_stmt ;
 
 block_stmt ::= LBRACE stmt_list RBRACE ;
 
